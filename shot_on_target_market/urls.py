@@ -16,6 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from main.views import not_found_error_page
+
+handler404 = not_found_error_page # Add this line to specify the custom 404 error handler from https://docs.djangoproject.com/en/1.8/ref/views/#http-not-found-view
 
 urlpatterns = [
     path('admin/', admin.site.urls),

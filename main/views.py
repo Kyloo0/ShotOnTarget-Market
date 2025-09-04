@@ -9,3 +9,6 @@ def show_main_page(request):
     }
 
     return render(request, 'main.html', context)
+
+def not_found_error_page(request, exception):
+    return render(request, 'notfound.html', status=404)

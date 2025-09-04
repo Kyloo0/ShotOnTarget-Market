@@ -6,6 +6,12 @@ class ProductModelTest(TestCase):
     def test_show_page(self):
         response = Client().get('')
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'main.html')
+    
+    def test_page_not_found(self):
+        response = Client().get('/notexist/')
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, 'notfound.html')
 
     def test_create_product(self):
         product = Product.objects.create(
