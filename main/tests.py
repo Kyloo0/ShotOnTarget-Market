@@ -1,8 +1,12 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from .models import Product
 
 # Create your tests here.
 class ProductModelTest(TestCase):
+    def test_show_page(self):
+        response = Client().get('')
+        self.assertEqual(response.status_code, 200)
+
     def test_create_product(self):
         product = Product.objects.create(
             name = "Bola Jabulani",
