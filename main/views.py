@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.core import serializers
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from main.models import Product
+from main.forms import ProductForm
 
 app_name = 'main'
 
@@ -19,6 +20,16 @@ def show_main_page(request):
 
 def not_found_error_page(request, exception):
     return render(request, 'notfound.html', status=404)
+
+def create_product(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return redirect('main:show_main_page')
+
+    context = {'form': form}
+    return render(request, "product_form.html", context)
 
 def show_xml(request):
     product_list = Product.objects.all()
