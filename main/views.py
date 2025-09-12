@@ -7,10 +7,12 @@ app_name = 'main'
 
 # Create your views here.
 def show_main_page(request):
+    product_list = Product.objects.all()
     context = {
         'name' : 'Fitto Fadhelli Voltanie Ariyana',
         'npm' : '2406423401',
-        'class' : 'PBP F'
+        'class' : 'PBP F',
+        'product_list': product_list
     }
 
     return render(request, 'main.html', context)
@@ -33,7 +35,7 @@ def show_xml_by_id(request, id):
         product = Product.objects.filter(pk=id)
         xml_data = serializers.serialize('xml', product)
         return HttpResponse(xml_data, content_type='application/xml')
-    except:
+    except Product.DoesNotExist:
         return HttpResponse(status=404)
 
 def show_json_by_id(request, id):
@@ -41,7 +43,7 @@ def show_json_by_id(request, id):
         product = Product.objects.filter(pk=id)
         json_data = serializers.serialize('json', [product])
         return HttpResponse(json_data, content_type='application/json')
-    except:
+    except Product.DoesNotExist:
         return HttpResponse(status=404)
 
 

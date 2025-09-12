@@ -1,8 +1,26 @@
+ {% extends 'base.html' %}
+ {% block content %}
+
 <h1>Shot On Target Market</h1>
 
 <p>Welcome to Shot On Target Market❗<br>
     🔥Your One-Stop Market, Always on Target!🔥
 </p>
+
+<a href="{% url 'main:product_form' %}">
+    <button>+Add</button>
+</a>
+
+<hr>
+{% if not product_list %}
+<p>Empty Product</p>
+
+{% else %}
+<a href="{% url 'main:product_detail' %}">
+    <button>Detail</button>
+</a>
+
+{% endif %}
 
 <h3>Created by:</h3>
 <h5>Name:</h5>
@@ -11,3 +29,5 @@
 <p>{{  npm  }}</p>
 <h5>Class:</h5>
 <p>{{  class  }}</p>
+
+{% endblock content %}
