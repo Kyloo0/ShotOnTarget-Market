@@ -4,8 +4,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from main.models import Product
 from main.forms import ProductForm
 
-app_name = 'main'
-
 # Create your views here.
 def show_main_page(request):
     product_list = Product.objects.all()
@@ -31,6 +29,15 @@ def create_product(request):
     context = {'form': form}
     return render(request, "product_form.html", context)
 
+def show_detail(request, id):
+    product = get_object_or_404(Product, pk=id)
+
+    context = {
+        'product':product
+    }
+
+    return render(request, "product_detail.html", context)
+
 def show_xml(request):
     product_list = Product.objects.all()
     xml_data = serializers.serialize('xml', product_list)
@@ -52,7 +59,7 @@ def show_xml_by_id(request, id):
 def show_json_by_id(request, id):
     try:
         product = Product.objects.filter(pk=id)
-        json_data = serializers.serialize('json', [product])
+        json_data = serializers.serialize('json', product)
         return HttpResponse(json_data, content_type='application/json')
     except Product.DoesNotExist:
         return HttpResponse(status=404)

@@ -16,10 +16,20 @@
 <p>Empty Product</p>
 
 {% else %}
-<a href="{% url 'main:product_detail' %}">
-    <button>Detail</button>
-</a>
-
+{% if not product_list %}
+    <p>Empty Product</p>
+{% else %}
+    <ul>
+        {% for product in product_list %}
+            <li>
+                {{ product.name }} - Rp{{ product.price }}
+                <a href="{% url 'main:show_detail' product.id %}">
+                    <button>Detail</button>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% endif %}
 
 <h3>Created by:</h3>
