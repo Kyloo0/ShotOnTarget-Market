@@ -7,6 +7,8 @@ ___
 Sebuah aplikasi web yang dirancang sebagai pusat belanja perlengkapan sepak bola dan olahraga. Di sini pengguna dapat menemukan berbagai kebutuhan mulai dari sepatu bola, jersey tim, perlengkapan pelindung, perlengkapan latihan, hingga aksesoris pendukung dengan kualitas terjamin.<br>
 ___
 
+# <p align="center">**TUGAS 2**</p>
+
 ***Implementasi Proyek Django***
 ==
 1. Hal yang paling pertama yang saya lakukan adalah membuat/menginisiasi proyek Django dengan men-*setting* beberapa *environtment* yang diperlukan, yakni *virtual environtment* dan *dependencies*-nya, saya melakukan hal berikut
@@ -213,6 +215,95 @@ Beberapa alasan *framework* Django dijadikan permulaan pembelajaran pengembangan
 Sebagian besar kode yang saya buat mengikuti [tutorial](https://pbp-fasilkom-ui.github.io/ganjil-2026/docs) yang telah disediakan. Pada tutorial tersebut, sudah cukup menjelaskan, membantu, dan memberikan pengalaman membuat suatu aplikasi dengan sangat menyenangkan. Saya sangat berterima kasih pada tim dosen dan asisten dosen yang membuat dokumen tutorial yang lengkap dan menyertakan penjelasan.
 
 ___
+# <p align="center">**TUGAS 3**</p>
+***Data Delivery Untuk Pengimplementasian Aplikasi***
+==
+***Data delivery*** sangat penting dalam implementasi platform karena memastikan data dapat dikirim dengan format data yang tepat dan sesuai agar sampai ke *user* atau sistem yang membutuhkannya. Umumnya, format file yang digunakan untuk data delivery dapat dibagi menjadi dua kategori utama, yakni text-based dan binary. Pemilihan format sangat bergantung pada kebutuhan, seperti ukuran file, kecepatan akses, dan kemudahan dibaca oleh manusia atau mesin.
+
+Format berbasis teks seperti CSV, JSON, dan XML dikenal karena mudah dibaca oleh manusia dan memiliki kompatibilitas luas, menjadikannya ideal untuk pertukaran data melalui API atau untuk data tabular sederhana. Namun, format ini sering kali kurang efisien dalam hal ukuran file. 
+
+Di sisi lain, format biner seperti Parquet dan Avro dirancang untuk efisiensi dan performa tinggi, meskipun tidak dapat dibaca oleh manusia, format ini sangat optimal untuk beban kerja analitik skala besar. Oleh karena itu, pilihan format file sangat bergantung pada kebutuhan spesifik proyek, seperti kebutuhan akan kecepatan, efisiensi penyimpanan, atau kemudahan pertukaran data.<br> Sumber: [ Huynh, A. V(2023, Januari 23)](https://medium.com/@vananhchic/different-types-of-data-delivery-file-formats-82228e5606c7)
+
+***XML atau JSON? Mengapa JSON Lebih Populer?***
+==
+***Extensible Markup Language*** (XML) memungkinkan menentukan dan menyimpan data yang mendukung pertukaran informasi antara sistem komputer, seperti situs web, *database*, dan aplikasi pihak ketiga. Dengan struktur yang terorganisir dan aturan yang dapat ditentukan, XML memudahkan pengiriman data melalui jaringan sehingga sistem dapat memvalidasi dan membaca informasi secara akurat. Umumnya berbentuk seperti format HTML namun dengan isi *tag* yang dapat didefinisikan sebagai *variabel* yang diinginkan. <br><br>***JavaScript Object Notation*** (JSON) adalah format pertukaran data yang dibangun berdasarkan dua struktur, yakni kumpulan pasangan nama dan nilai. Struktur JSON terlihat layaknya sintaks *JavaScript* atau struktur data *dictionary* pada bahasa pemrograman *Python*.<br><br>
+Berikut perbedaannya,
+|Aspect|XML|JSON|
+|---|---|---|
+|Syntax|Markup-based with custom tags|Simple key-value pairs with brackets|
+|Readability|More verbose| High |
+|use case|Suited for document-style data|Ideal for APIs and lightweight apps|
+|Format Size|Bulky|Compact|
+|Data Type| Treated as text|Distinguish types|
+
+Lalu mengapa ***JSON lebih populer?***<br>Yang pasti adalah mudah dibaca, hemat ruang, kompatibel, dan fleksibel. *JSON* menawarkan keunggulan terbaik dengan formatnya karena hampir semua browser modern yang tersedia sekarang, dapat memproses data JSON dengan lancar. Waktu yang dibutuhkan untuk memproses data *JSON* memang lebih sedikit, dan ini berkat format penulisan kodenya yang tidak memerlukan terlalu banyak karakter. Nah, yang paling penting adalah *JSON* mengatur cara kerja sebuah *API* dengan data yang terkandung di dalamnya.
+
+***Fungsi Method ```is_valid()```***
+==
+Method tersebut ditemukan pada <span style="background-color:#f0f0f0">***main/views.py***</span>
+```
+...
+def create_product(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        ...
+    ...
+```
+Method ```is_valid()``` bertujuan untuk mengecek atau memvalidasi data-data dalam *form*-nya. Django Form memeriksa field yang wajib ada, membersihkan data dari string menjadi tipe Python yang sesuai, melakukan pemrosesan tambahan (misal memangkas spasi atau memilih objek model), serta memeriksa validasi dengan validator untuk setiap field, termasuk panjang, format, dan keunikan. Hanya setelah semua tahap berhasil, ```.is_valid()``` mengembalikan ```True```, dan **errors** berisi laporan semua kesalahan yang akan ditampilkan ke *user*.<br>Sumber: [Stack Overflow](https://stackoverflow.com/questions/73173747/django-form-is-valid-what-does-it-check) dan [Dokumentasi Django](https://docs.djangoproject.com/en/5.0/topics/forms/)
+
+***```CSRF Token``` di Django***
+==
+Tag template CSRF memberikan perlindungan yang mudah digunakan terhadap *Cross Site Request Forgery*, yakni serangan yang memaksa *end user* untuk melakukan tindakan yang tidak diinginkan di aplikasi web yang telah terauntetikasi. Misalnya tidak sengaja mengklik tautan di situs berbahaya, sehingga *browsser* otomatis mengirimkan permintaan transfer.<br><br> Pada halaman dengan formulir yang ingin dilindungi, server akan menghasilkan string acak, ```csrf_token```, menambahkannya ke formulir sebagai kolom tersembunyi, dan juga mengingatnya, baik dengan menyimpannya di sesi atau dengan menyetel cookie yang berisi nilai tersebut. <br><br>Saat pengguna mengirimkan formulir, server hanya perlu membandingkan nilai kolom ```csrf_token``` yang diposting dengan token CSRF yang diingat oleh server. Jika kedua string sama, server dapat melanjutkan pemrosesan formulir. Jika tidak, server akan segera berhenti memproses formulir dan merespons dengan kesalahan. Saat view tidak me*render* template yang mengandung ```csrf_token``` (misalnya, saat menggunakan AJAX atau membuat formulir secara dinamis), Django mungkin tidak akan secara otomatis menyetel cookie CSRF.<br>Sumber: [Stack Overflow](https://stackoverflow.com/questions/5207160/what-is-a-csrf-token-what-is-its-importance-and-how-does-it-work) dan [Dokumentasi Django](https://docs.djangoproject.com/en/5.2/howto/csrf/)
+
+***Implementasi Step-by-Step***
+==
+1. Mengumpulkan niat. Dorongan saya mengerjakan tugas ini adalah karena saya punya tugas lain yang menumpuk.
+2. Melanjutkan proses implementasi dengan membuat ***data delivery***-nya terlebih dahulu, yakni ke dalam format XML dan JSON, dengan membuat fungsi pada *main/**views.py*** dan routing URL dalam *main/**urls.py***
+```
+# dalam main/views.py
+def show_xml(request):
+    ...
+def show_json(request):
+    ...
+def show_xml_by_id(request):
+    ...
+def show_json_by_id(request):
+    ...
+```
+```
+# dalam main/urls.py
+urlpatterns = [
+    ...
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<str:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
+    ...
+]
+```
+3. Membuat template HTML yang sederhana sebatas untuk menampilkan data apa saja, seperti ```main.html```, ```product_form.html```, dan ```product_detail.html```. Saya membuat HTML-nya juga menggunakan skeleton template yang ada pada direktori *root* saya, sehingga file-file HTML tadi hanya perlu me-*extend* template dasarnya dengan mengganti konten dalam blok sesuai kebutuhan. Jadi, template ini mengurangi *redundansi*.
+4. Setelah itu, saya mulai mengerjakan untuk membuat sebuah form untuk mendaftarkan produk baru di toko saya. *User* perlu untuk mengisi ```name```,```description```,```price```,```thumbnail```, dan ```stock``` sesuai dengan tipe data yang telah didefinisikan pada model.
+5. Sempat terjadi beberapa error untuk *primary key* yang digunakan mengakses *attribute/values* dari objek Product yang telah dibuat. Saya menambahkan ```id``` pada model yang berperan sebagai *primary key*-nya. Saya harus mengulang proses migrasi.
+6. Tentunya tidak lengkap apabila produk yang telah didaftarkan atau ditambahkan tidak untuk ditampilkan. Jadi saya membuat ```product_detail.html``` untuk menampilkan informasi detail setiap produk mulai nama, harga, stok, thumbnail dan deskripsinya. Untuk di halaman main sendiri, saya hanya menampilkan berupa thumbnail, nama, dan harga saja.
+7. Menambahkan validasi csrf pada domain saya dengan menambahkan blok kode ```CSRF_TRUSTED_ORIGIN=[...]``` di ***settings.py***
+
+***Feedback***
+==
+Sama seperti minggu kemarin, lab nya *doable* dan saya sangat berterima kasih pada tim dosen dan asisten dosen yang membuat dokumen tutorial yang baik. Sedikit saran untuk mendalami materi menarik yang tercantum pada tutorial, seperti *data delivery*, csrf, dan *query set* Django sebaiknya disertakan dokumentasi dari Django atau sumber-sumber lain yang jelas.
+
+***Screenshot Postman***
+==
+<p align="center">
+  <img src="docs/postman_xml.jpg" alt="screenshot postman untuk halaman xml" width="45%"/>
+  <img src="docs/postman_json.jpg" alt="screenshot postman untuk halaman json" width="45%"/>
+</p>
+<p align="center">
+  <img src="docs/postman_xml_id.jpg" alt="screenshot postman untuk halaman xml by id" width="45%"/>
+  <img src="docs/postman_json_id.jpg" alt="screenshot postman untuk halaman json by id" width="45%"/>
+</p>
+
+___
 Sumber materi 
 --
 - Dokumen [Django](https://docs.djangoproject.com/en/5.2/topics/settings/)
@@ -225,3 +316,4 @@ Sumber materi
 - [Tree](https://tree.nathanfriend.com/) untuk membuat *directory graph*
 - [Figma](https://www.figma.com/board/DyyTiiB2hHrAJuwnOJFQTe/Untitled?node-id=0-1&t=0ZObPeJ7a4oGYVIX-1) untuk membuat *request client graph*
 ___
+
