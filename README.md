@@ -295,12 +295,12 @@ Sama seperti minggu kemarin, lab nya *doable* dan saya sangat berterima kasih pa
 ***Screenshot Postman***
 ==
 <p align="center">
-  <img src="docs/postman_xml.jpg" alt="screenshot postman untuk halaman xml" width="45%"/>
-  <img src="docs/postman_json.jpg" alt="screenshot postman untuk halaman json" width="45%"/>
+  <img src="docs/postman_xml.png" alt="screenshot postman untuk halaman xml" width="45%"/>
+  <img src="docs/postman_json.png" alt="screenshot postman untuk halaman json" width="45%"/>
 </p>
 <p align="center">
-  <img src="docs/postman_xml_id.jpg" alt="screenshot postman untuk halaman xml by id" width="45%"/>
-  <img src="docs/postman_json_id.jpg" alt="screenshot postman untuk halaman json by id" width="45%"/>
+  <img src="docs/postman_xml_id.png" alt="screenshot postman untuk halaman xml by id" width="45%"/>
+  <img src="docs/postman_json_id.png" alt="screenshot postman untuk halaman json by id" width="45%"/>
 </p>
 
 ___
