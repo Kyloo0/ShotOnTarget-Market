@@ -304,6 +304,79 @@ Sama seperti minggu kemarin, lab nya *doable* dan saya sangat berterima kasih pa
 </p>
 
 ___
+# <p align="center">**TUGAS 4**</p>
+***Django ```AuthenticationForm```?***
+==
+Django dilengkapi dengan sistem autentikasi *user*. Sistem ini menangani akun pengguna, grup, izin, dan sesi pengguna berbasis cookie. Sistem autentikasi Django menangani autentikasi dan otorisasi. Singkatnya, autentikasi memverifikasi identitas pengguna, sementara otorisasi menentukan apa yang boleh dilakukan oleh pengguna terautentikasi. *AuthenticationForm* adalah form bawaan Django yang disediakan oleh modul ```django.contrib.auth.forms.Form``` ini digunakan untuk login pengguna dengan cara memvalidasi kombinasi username dan password terhadap sistem autentikasi Django.
+|Kelebihan|Kekurangan|
+|---|---|
+|Terintegrasi dengan sistem perlindungan CSRF (*Cross-Site Request Forgery*)|Hanya mendukung model user standar, memerlukan username dari user|
+|Validasi dilakukan secara otomatis dari Django|Tidak ada fitur tambahan di luar login dasar. Misalnya ingin login menggunakan akun *email* atau fitur lupa *password*|
+|Mudah untuk dibuat dan Django telah membuatkan *User Interface*-nya|Validasi dan register (pembuatan *username* dan *password*) sedikit rumit harus menyesuaikan ketentuan|
+
+***Perbedaan antara autentikasi dan otorisasi***
+==
+Sistem autentikasi Django menangani autentikasi dan otorisasi. ```Autentikasi``` yakni memverifikasi identitas pengguna, sementara ```otorisasi``` menentukan apa yang boleh dilakukan oleh pengguna terautentikasi. <br><br>```Autentikasi``` adalah proses yang memverifikasi bahwa seseorang atau sesuatu memang benar-benar seperti yang diklaimnya. Sistem teknologi biasanya menggunakan beberapa bentuk autentikasi untuk mengamankan akses ke aplikasi atau datanya. Misalnya, ketika kita perlu mengakses *websites*, biasanya harus memasukkan *username* dan *password*. Kemudian, sistem akan membandingkan *username* dan *password* yang telah dimasukkan dengan data yang tersimpan di *database*. Jika informasi dimasukkan cocok, sistem akan menganggapnya sebagai pengguna yang valid dan memberikan akses.<br><br>```Otorisasi``` adalah proses keamanan yang menentukan tingkat akses *user* atau layanan. Dalam teknologi, otorisasi digunakan untuk memberi *user* atau layanan izin mengakses data atau melakukan tindakan tertentu. Misalnya dalam SIAK-NG (Sistem Informasi Akademik), otorisasi setiap *user* berbeda, seperti mahasiswa hanya bisa mengakses kalender, melihat dan memilih mata kuliah, jadwal kuliah, dan melihat nilai, sedangkan sekretariat akademik dapat merubah mata kuliah, membuat jadwal yang *available*, mengisi nilai mata kuliah mahasiswa, dan sebagainya.<br><br>Django memiliki *user authentication system* (sistem autentikasi pengguna) yang menangani akun-user, grup, *permissions*, sistem *hashing* kata sandi dan *cookie-based user sessions*. Django sudah menyediakan modul ```django.contrib.auth``` yang digunakan untuk sistem autentikasi dan otorisasi *user*. Modul ini sudah terintegrasi penuh dengan middleware dan sistem keamanan bawaan Django, sehingga memudahkan *developer* untuk menerapkan *login, logout, manajemen session*, hingga pengaturan *permissions* tanpa harus membangun dari nol. Selain itu, Django juga menyediakan form bawaan seperti ```AuthenticationForm``` dan view siap pakai untuk *login* atau *logout*, yang bisa langsung digunakan atau dikustomisasi sesuai kebutuhan.<br>Sumber: [Authentication vs. Authorization](https://www.onelogin.com/learn/authentication-vs-authorization), [Dokumentasi Django](https://docs.djangoproject.com/en/5.2/topics/auth/default/)
+
+***Kelebihan dan kekurangan ```session``` dan ```cookies``` dalam menyimpan ```state```***
+==
+*Holding state* adalah mekanisme agar web tetap “mengingat” siapa *user* yang sedang login. Tanpa ini, setiap pindah halaman pengguna harus login ulang, karena HTTP bersifat stateless (tidak menyimpan status). ```Cookies``` adalah potongan data kecil yang disimpan di *user's browser* yang membantu mengingat hal-hal seperti status masuk atau preferensi, bahkan setelah *website* ditutup. ```Session``` menyimpan data pengguna di server, membuatnya lebih aman dan ideal untuk menyimpan informasi sementara atau sensitif.
+||Kelebihan|Kekurangan|
+|----|----|----|
+|Cookies|- Beban server ringan karena data disimpan di browser pengguna (*client*)<br>- Dapat diatur untuk memiliki masa berlaku yang sangat lama<br>- Kompatibilitas luas karena didukung semua browser|- Kurang aman karena data bisa dilihat/diubah di *client browser* jika tidak dienkripsi (banyak kasus kecolongan data melalui *cookie*)<br>- Tidak bisa menyimpan data yang kompleks atau besar<br>- Rentan diserang
+|Session|- Kapasitas lebih besar, data bisa disimpan di memori server<br>- Jauh lebih aman, karena semua data sensitif (seperti siapa yang sedang login) tersimpan aman di server, terlindung dari manipulasi pengguna|- Semua state disimpan di server, bisa jadi *bottleneck* kalau pengguna sangat banyak<br>- Umumnya session berakhir saat user logout atau menutup browser/tab|
+
+Sumber: [Link Tutorial](https://pbp-fasilkom-ui.github.io/ganjil-2026/docs/tutorial-3)
+
+***Penggunaan ```cookies``` aman secara default?***
+==
+```Cookies``` tidak menjamin aman seratus persen. Banyak kasus pencurian data yang melibatkan ```cookies```. Pembajakan *cookies*, terjadi saat penyerang mencuri *cookies* yang berisi informasi sesi atau autentikasi pengguna dari perangkat korban. Dengan *cookies* tersebut, penyerang bisa menyamar sebagai korban di situs web, mendapatkan akses ke akun pribadi, mencuri data keuangan, atau melakukan tindakan atas nama pengguna. Oleh karena itu, penggunaan cookies tidak aman secara default dalam pengembangan web, karena ada risiko seperti *session hijacking*, XSS (*Cross-Site Scripting*), CSRF (*Cross-Site Request Forgery*), maupun manipulasi data langsung di sisi *client*.<br><br>Untuk mengatasi risiko tersebut, Django menyediakan beberapa mekanisme keamanan. *Session framework* menyimpan dan mengambil data acak berdasarkan setiap pengunjung situs. Kerangka kerja ini menyimpan data di sisi server dan mengabstraksi pengiriman dan penerimaan *cookies*. *cookies* berisi ID *session*, bukan data itu sendiri. Django menyediakan pengaturan kepada *developer* untuk mengendalikan perilaku *session*.<br> Sumber: [Dokumentasi Django](https://docs.djangoproject.com/en/5.2/topics/http/sessions/)
+
+***Implementasi Step-by-Step***
+==
+1. Mengumpulkan niat. Dorongan saya mengerjakan tugas ini adalah karena saya punya tugas lain yang menumpuk.
+2. Melanjutkan *code* dengan membuat fungsi ```register()``` yang memanfaatkan ```UserCreationForm``` untuk membuat akun baru., ```login_user()```, ```logout_user()``` pada main/```views.py```, sebagai berikut:
+```
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+...
+def register(request):
+    form = UserCreationForm()
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            ...
+
+def login_user(request):
+    if request.method == 'POST':
+      form = AuthenticationForm(data=request.POST)
+      if form.is_valid():
+        ...
+
+def logout_user(request):
+    logout(request)
+    ...
+```
+Serta membuat masing-masing *page html* untuk menampilkan halaman saat login dan register dalam direktori ```templates```. Setelah membuat fungsi pada views dan html-nya, saya membuat path dalam ```urls.py```, yang memetakan path saat login ataupun saat register. Pada halaman login danregister sudah tersedia ```csrf_token``` agar lebih aman. Selain itu, dalam register, sebisa mungkin membuat *username* dan *password* sesuai dengan ketentua dari Django (maksimal karakter, tanda baca, dan sebagainya).
+
+3. Membuat akun baru di lokal. Pertama, saya *run server*  terlebih dahulu menggunakan *command* ```python manage.py runserver```. Berikut *screenshot* dari pembuatan akun saya dan produk yang dibuat oleh masing-masing akun.
+<p align="center"> <img src="docs\screenshot_akun_lokal.png" alt="screenshot akun" width="45%"/> </p>
+
+4. Menambahkan variabel ```user``` di class ```Product``` yang ada di main/```models.py```.
+```
+from django.contrib.auth.models import User
+...
+class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    ...
+```
+Sesudahnya, melakukan migrasi dengan menggunakan *command* ```python manage.py makemigrations``` dan ```python manage.py migrate```. Hal ini dilakukan setelah melakukan perubahan pada models.
+
+5. Setelah melakukan migrasi data dan menambahkan atribut pada model, selanjutnya meretriksi halaman utama agar dapat diakses oleh *user* yang telah login, dengan cara memberikan potongan decorators seperti ```@login_required(login_url='/login')``` pada fungsi yang membutuhkan contohnya ```show_main_page()``` dan ```show_detail()``` karena pada halaman tersebut akan berisi informasi terkait user yang login atau waktu login-nya.
+
+6. Untuk menampilkan detail informasi pengguna yang sedang *logged in* seperti *username* dan menerapkan cookies seperti ```last_login``` pada halaman utama aplikasi, yakni dengan mengubah bagian kode di fungsi ```login_user()``` untuk menyimpan cookie baru bernama ```last_login``` yang berisi timestamp terakhir kali pengguna melakukan login. Perintah ```set_cookie()``` ini dijalankan setelah *user* dapat login dengan benar. Selanjutnya, pada fungsi ```login_user()``` akan mengembalikan response beserta status *cookie*-nya yakni waktu *user* login. Untuk fungsi ```logout()``` akan mereset *cookie*-nya. Dengan cara ini, informasi waktu login terakhir bisa ditampilkan di halaman utama ketika *user* sedang aktif, dan *cookie* tersebut otomatis ter-reset ketika user keluar dari aplikasi.
+
+___
 Sumber materi 
 --
 - Dokumen [Django](https://docs.djangoproject.com/en/5.2/topics/settings/)
