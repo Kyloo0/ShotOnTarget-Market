@@ -10,7 +10,17 @@
 {% endif %}
 
 <p>{{ product.description }}</p>
-<p>{{ product.price }}</p>
-<p>{{ product.stock }}</p>
+<p><strong>Harga:</strong> {{ product.price }}</p>
+<p><strong>Stok:</strong> {{ product.stock }}</p>
+
+{% if product.user %}
+    <p><strong>Author:</strong> {{ product.user.username }}</p>
+{% else %}
+    <p><strong>Author:</strong> Anonymous</p>
+{% endif %}
+
+<p>
+  <button>Beli</button>
+</p>
 
 {% endblock content %}
