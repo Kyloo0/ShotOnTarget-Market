@@ -13,19 +13,29 @@ from main.forms import ProductForm
 # Create your views here.
 @login_required(login_url='/login')
 def show_main_page(request):
-    filter_type = request.GET.get("filter", "all")  # default 'all'
+    # filter_type = request.GET.get("filter", "all")  # default 'all'
+    category_filter = request.GET.get("category")
+    user_filter = request.GET.get("filter")
 
-    if filter_type == "all":
-        product_list = Product.objects.all()
-    else:
-        product_list = Product.objects.filter(user=request.user)
+    # 2. Mulai dengan SEMUA produk sebagai dasar
+    product_list = Product.objects.all()
+
+    # 3. Saring berdasarkan KATEGORI jika ada
+    if category_filter:
+        product_list = product_list.filter(category=category_filter)
+
+    # 4. Saring lagi berdasarkan USER jika filter 'my' aktif
+    if user_filter == 'my':
+        product_list = product_list.filter(user=request.user)
 
     context = {
         'name' : 'Fitto Fadhelli Voltanie Ariyana',
         'npm' : '2406423401',
         'class' : 'PBP F',
         'product_list': product_list,
-        'last_login': request.COOKIES.get('last_login', 'Never')
+        'categories': Product.SPORTS_PRODUCT_CATEGORY,
+        'last_login': request.COOKIES.get('last_login', 'Never'),
+        'active_category': category_filter
     }
 
     return render(request, 'main.html', context)

@@ -6,12 +6,12 @@ from django.db import models
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     SPORTS_PRODUCT_CATEGORY = [
-            ('acsessoris', 'Acsessoris'),
+            ('accessories', 'Accessories'),
             ('footwear', 'Footwear'),
-            ('protective gear', 'Protective Gear'),
-            ('team kit', 'Team Kit'),
-            ('match equipment', 'Match Equipment'),
-            ('training equipment', 'Training Equipment'),
+            ('protective_gear', 'Protective Gear'),
+            ('team_kit', 'Team Kit'),
+            ('match_equipment', 'Match Equipment'),
+            ('training_equipment', 'Training Equipment'),
             ('uncategorized', 'Uncategorized')
         ]
 
