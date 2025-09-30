@@ -1,7 +1,7 @@
 {% load static %}
 <article class="bg-white rounded-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300 overflow-hidden">
   
-  <div class="aspect-[16/9] relative overflow-hidden bg-gray-100">
+  <div class="aspect-[16/12] relative overflow-hidden bg-gray-100">
     {% if product.thumbnail %}
       <img src="{{ product.thumbnail }}" alt="{{ product.name }}" class="w-full h-full object-cover">
     {% else %}
@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="p-5">
+  <div class="px-12 py-24 flex-col flex-grow">
     <div class="flex items-center text-sm text-gray-500 mb-3">
       <span class="font-semibold text-lg text-red-600">Rp {{ product.price|floatformat:0 }}</span>
       <span class="mx-2">•</span>

@@ -32,7 +32,9 @@
 
     {% if not product_list %}
       <div class="bg-white rounded-lg border border-dashed p-12 text-center">
-        
+        <div class="w-32 h-32 mx-auto mb-4">
+          <img src="{% static 'image/no-product.png' %}" alt="No news available" class="w-full h-full object-contain">
+        </div>
         <h3 class="mt-4 text-lg font-medium text-gray-900">No Products Found</h3>
         <p class="mt-1 text-sm text-gray-500 mb-6">It looks a bit empty here. Be the first to add a product!</p>
         <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors shadow-sm">

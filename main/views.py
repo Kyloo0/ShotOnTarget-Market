@@ -13,18 +13,13 @@ from main.forms import ProductForm
 # Create your views here.
 @login_required(login_url='/login')
 def show_main_page(request):
-    # filter_type = request.GET.get("filter", "all")  # default 'all'
     category_filter = request.GET.get("category")
     user_filter = request.GET.get("filter")
 
-    # 2. Mulai dengan SEMUA produk sebagai dasar
     product_list = Product.objects.all()
 
-    # 3. Saring berdasarkan KATEGORI jika ada
     if category_filter:
         product_list = product_list.filter(category=category_filter)
-
-    # 4. Saring lagi berdasarkan USER jika filter 'my' aktif
     if user_filter == 'my':
         product_list = product_list.filter(user=request.user)
 
