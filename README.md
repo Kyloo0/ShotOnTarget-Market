@@ -377,6 +377,87 @@ Sesudahnya, melakukan migrasi dengan menggunakan *command* ```python manage.py m
 6. Untuk menampilkan detail informasi pengguna yang sedang *logged in* seperti *username* dan menerapkan cookies seperti ```last_login``` pada halaman utama aplikasi, yakni dengan mengubah bagian kode di fungsi ```login_user()``` untuk menyimpan cookie baru bernama ```last_login``` yang berisi timestamp terakhir kali pengguna melakukan login. Perintah ```set_cookie()``` ini dijalankan setelah *user* dapat login dengan benar. Selanjutnya, pada fungsi ```login_user()``` akan mengembalikan response beserta status *cookie*-nya yakni waktu *user* login. Untuk fungsi ```logout()``` akan mereset *cookie*-nya. Dengan cara ini, informasi waktu login terakhir bisa ditampilkan di halaman utama ketika *user* sedang aktif, dan *cookie* tersebut otomatis ter-reset ketika user keluar dari aplikasi.
 
 ___
+# <p align="center">**TUGAS 5**</p>
+***Urutan Prioritas CSS Selector***
+==
+Ketika beberapa aturan CSS cocok untuk satu elemen, *browser* memilih nilai akhir berdasarkan *cascade* urutan pemeriksaan utama adalah:
+1. ```!important```: Aturan yang ditandai dengan ```!important``` akan mengalahkan semua aturan lainnya. Namun, penggunaannya tidak disarankan kecuali benar-benar diperlukan karena dapat membuat CSS sulit untuk dikelola.
+2. Inline Styles: Gaya yang ditulis langsung di dalam atribut style pada elemen HTML. Contoh: ```<div style="color: red;">```.
+3. ID Selector: Selector yang menargetkan elemen berdasarkan atribut id uniknya. Ditandai dengan ```#```. Contoh: ```#header```.
+4. Class, Attribute, dan Pseudo-class Selectors:<br>- Class: Menargetkan elemen dengan atribut class tertentu. Ditandai dengan ```.```. Contoh: ```.button```.<br>- Attribute: Menargetkan elemen berdasarkan atribut dan nilainya. Contoh: ```[type="text"]```.<br>- Pseudo-class: Menargetkan elemen dalam keadaan tertentu. Contoh: ```:hover```.
+5. Element dan Pseudo-element Selectors:<br>- Element (Type): Menargetkan semua elemen dengan nama tag tertentu. Contoh: ```div```, ```p```,```h1```.<br>- Pseudo-element: Menargetkan bagian tertentu dari elemen. Contoh: ::before, ::first-line.
+
+***Pentingnya Responsive Design***
+==
+***Responsive design*** adalah pendekatan dalam pengembangan web yang membuat halaman web dapat beradaptasi dan tampil baik di berbagai ukuran layar dan perangkat, mulai dari desktop besar hingga ponsel kecil.<br>Mengapa **penting**?<br>- *User Experience*: Pengguna mengakses web dari berbagai perangkat. Desain yang responsif memastikan konten tetap mudah dibaca dan dinavigasi tanpa harus melakukan zoom atau scroll horizontal yang berlebihan.<br>- Peningkatan Jangkauan Pengguna: Sebagian besar trafik internet saat ini berasal dari perangkat mobile. Tanpa desain responsif, akan berisiko kehilangan *user*.<br>- *Maintenance* lebih mudah: desain berbasis komponen & responsif mendorong *reuse* dan konsistensi.<br>- SEO (*Search Engine Optimization*): Suatu *search engine* seperti *Google, Internet Explorer* memprioritaskan situs yang mobile-friendly dalam hasil pencariannya. Situs yang tidak responsif akan mendapatkan peringkat yang lebih rendah.<br><br>
+**Aplikasi yang sudah menerapkan *responsive design***<br>Contoh:<br>🔹 YouTube – (https://www.youtube.com)<br>Alasan:<br>- Tampilan otomatis menyesuaikan ukuran layar.<br>- Di desktop, video ditampilkan dalam grid besar dan sidebar selalu terlihat.<br>- Di mobile, sidebar berubah jadi tombol menu (hamburger), grid menjadi 1 kolom agar nyaman di-scroll.<br>- Ukuran teks, tombol, dan gambar ikut menyesuaikan agar tetap mudah dibaca dan diklik.<br>Kesimpulan: *user* tetap mendapatkan pengalaman yang nyaman baik di layar besar maupun kecil.<br><br>
+**Aplikasi yang belum menerapkan *responsive design***<br>Contoh:<br>🔸SiakNG - (https://academic.ui.ac.id/)<br>Alasan:<br>- Tombol dan teks terlalu kecil untuk disentuh di layar sentuh.<br>- Layout tetap lebar dan harus zoom in/out di HP.<br>
+
+***Perbedaan antara Margin, Border, dan Padding***
+==
+1. Padding: Ruang transparan di dalam border, yaitu antara border dan konten elemen itu sendiri (misalnya teks atau gambar). Bayangkan ini seperti bantalan di dalam sebuah kotak.
+2. Border (Batas): Garis yang mengelilingi padding dan konten (garis tepi). Border bisa memiliki ketebalan, gaya (misalnya solid, dotted), dan warna. Ini adalah "dinding" dari kotak tersebut.
+3. Margin (Jarak): Ruang transparan di luar border. Margin berfungsi untuk menciptakan jarak antara elemen tersebut dengan elemen lain di sekitarnya.
+<p align="center"> <img src="docs\box_model.png" alt="box model css" width="75%"/> </p>
+
+**Cara Implementasi** di dalam file *css* seperti berikut: 
+```
+.form-style input, textarea, select {
+    ...
+    padding: 0.5rem;
+    border: 2px solid #bcbcbc;
+    margin: 15px;
+    ...
+
+    /* Atau dengan spesifik sisinya */
+    padding-top: 10px;
+    border-left: 5px dotted blue;
+    margin-bottom: 25px;
+}
+``` 
+
+***Konsep Flexbox dan Grid Layout***
+==
+***Flexbox*** dan ***Grid*** adalah dua model tata letak (*layout*) modern di CSS untuk mengatur dan menyusun elemen di halaman. Keduanya sangat kuat, tetapi memiliki kegunaan yang berbeda.
+1. ***Flexbox***<br> Didesain untuk tata letak satu dimensi, baik sebagai baris atau kolom. Sangat ideal untuk mendistribusikan ruang dan menyelaraskan item dalam sebuah container.<br>Kegunaan:<br>- Membuat navbar atau menu navigasi.<br>- Menyelaraskan item secara vertikal di tengah-tengah container (sesuatu yang dulunya sangat sulit).<br>- Mengatur item dalam sebuah galeri gambar sederhana.<br>- 
+Membuat komponen UI seperti *card* di mana kontennya perlu disusun rapi.<br>Contoh:
+```
+.nav { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+```
+2. ***Grid***<br> Didesain untuk tata letak dua dimensi, yaitu baris dan kolom secara bersamaan. Ini memungkinkan untuk membuat tata letak yang kompleks dan terstruktur seperti grid pada koran atau majalah.<br>Kegunaan:<br>- Membuat tata letak halaman web utama secara keseluruhan (*header, sidebar, content, footer*).<br>- Membuat galeri foto yang kompleks dengan ukuran item yang berbeda-beda.<br>- Mengatur formulir (*form*) yang rumit.<br>- Diterapkan pada sesuatu yang membutuhkan kontrol presisi atas baris dan kolom.<br>Contoh:
+```
+.grid {
+  display:grid;
+  gap:1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+```
+***Implementasi Step-by-Step***
+==
+1. Mengumpulkan niat. Dorongan saya mengerjakan tugas ini adalah karena *deadline* tugas ini. Hehehe
+2.  Melanjutkan *code* dengan membuat fungsi ```edit_product()``` untuk mengedit informasi *product* dan ```delete_product()``` untuk menghapus *product* pada main/```views.py```, sebagai berikut:
+```
+def edit_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        form.save():
+            ...
+
+def delete_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    product.delete()
+    ...
+```
+3. Membuat *page html* untuk menampilkan halaman saat mengedit informasi *product* dalam direktori ```templates```. Setelah membuat fungsi pada views dan html-nya, saya membuat path dalam ```urls.py```, yang memetakan path untuk *edit* dan *delete*. 
+4. Membuat file - file ```global.css``` pada direktori ```static/css```, ```navbar.html``` dan ```footer.html``` pada direktori ```templates```. Serta menghubungkan ```global.css``` dan script Tailwind ke ```base.html```
+5. Pada navbar, menampilkan nama toko, kategori-kategori dari *product*, *username* dari *user* yang login, *button* ```+Add Product```, serta *button* ```logout```.
+6. Pada blok konten, menampilkan *product-product* yang dibungkus dengan *card-card*. Selain itu membuat ```card_product.html```, untuk membuat tampilan per-*card*-nya. 
+7. Pada *footer*, terdapat informasii sang creator, yaitu saya sendiri.
+8. Desain, desain, desain, sehingga menampilkan *web* yang responsif pada *desktop* ataupun pada *mobile*.
+
+___
 Sumber materi 
 --
 - Dokumen [Django](https://docs.djangoproject.com/en/5.2/topics/settings/)
