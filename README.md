@@ -458,6 +458,34 @@ def delete_product(request, id):
 8. Desain, desain, desain, sehingga menampilkan *web* yang responsif pada *desktop* ataupun pada *mobile*.
 
 ___
+# <p align="center">**TUGAS 6**</p>
+***Perbedaan antara synchronous dan asynchronous request***
+==
+*Synchronous request* adalah permintaan yang mengunci (blocking) alur program sampai respons diterima, sedangkan *asynchronous request* tidak mengunci (non-blocking) dan memungkinkan program untuk terus berjalan saat menunggu respons.<br>
+|Fitur|*Synchronous request*|*Asynchronous request*|
+|---|---|---|
+|Poin utama|Blocking|Non-Blocking|
+|Alur kerja|Aplikasi menunggu sampai server selesai merespons sebelum melanjutkan.|Aplikasi dapat melanjutkan tugas lain sambil menunggu respons dari server.|
+|Pengalaman pengguna|Halaman membeku atau me-refresh secara total saat permintaan dikirim.|Halaman tetap responsif dan hanya bagian tertentu yang diperbarui.|
+|Contoh| Mengklik tautan dan menunggu halaman baru dimuat.|Memuat data produk baru di halaman e-commerce tanpa refresh.|<br>
+
+***Bagaimana AJAX bekerja di Django***
+==
+AJAX (*Asynchronous JavaScript and XML*) adalah teknik yang memungkinkan web page memperbarui kontennya tanpa harus me-reload halaman secara keseluruhan.  Berikut adalah alur request-response AJAX di Django:<br>1. Event Dipicu: Pengguna melakukan aksi, misalnya mengklik tombol atau mengisi formulir, yang memicu sebuah event di sisi klien (*browser*).<br>2. Permintaan AJAX: JavaScript membuat objek ```XMLHttpRequest``` atau ```fetch``` dan mengirimkan permintaan (GET, POST, dll.) ke URL tertentu di server Django.<br>3. Pemrosesan di Server: Django menerima permintaan AJAX, mengidentifikasinya sebagai permintaan AJAX, dan memprosesnya menggunakan *view* yang relevan. View ini tidak me-render seluruh halaman, tetapi hanya memproses data dan menghasilkan respons dalam format tertentu, biasanya JSON.<br>4. Respons dikirim: Django mengembalikan respons JSON ke klien.<br> 5. Pemrosesan di Klien: JavaScript menerima respons JSON. Alih-alih me-*reload* halaman, JavaScript memanipulasi DOM (*Document Object Model*) untuk memperbarui bagian halaman yang relevan dengan data baru.
+
+***Keuntungan Menggunakan AJAX Dibandingkan Render***
+==
+Menggunakan AJAX menawarkan beberapa keuntungan dibandingkan render biasa di Django:<br>1. Peningkatan *User Experience* (UX): halaman terasa lebih cepat dan interaktif karena tidak perlu me-refresh total. Pengguna tidak mengalami jeda saat menunggu halaman dimuat ulang.<br>2. Penggunaan *Bandwidth* Efisien: hanya data yang dibutuhkan yang dikirimkan, bukan seluruh template HTML. Ini mengurangi lalu lintas data antara klien dan server.<br>3. Aplikasi Web Lebih Dinamis: memungkinkan pembuatan fitur seperti *live search*, *auto-complete*, dan pemuatan tak terbatas (*infinite scrolling**) yang membuat website terasa lebih modern dan responsif.
+
+***Cara Memastikan Keamanan saat Menggunakan AJAX***
+==
+Untuk memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django, terapkan langkah-langkah berikut:<br>1. CSRF Protection: memastikan setiap permintaan POST menyertakan token CSRF (*Cross-Site Request Forgery*). Django sudah memiliki mekanisme built-in untuk ini dengan ```{% csrf_token %}``` di formulir atau dengan mengirimkan token sebagai header pada permintaan AJAX.<br>2. Validasi data *Server-Side*: melakukan validasi data secara ketat di sisi server (di dalam view Django). Jangan pernah mengandalkan validasi di sisi klien (client-side validation) karena data dapat dengan mudah dimanipulasi.<br>3. Menggunakan HTTPS untuk mengenkripsi semua data yang dikirimkan, termasuk *username* dan *password*, untuk mencegah intersepsi data.<br>4. Manajemen sesi yang aman: menggunakan mekanisme sesi yang aman dari Django untuk mengelola status login pengguna setelah otentikasi.
+
+***Dampak AJAX terhadap User Experience***
+==
+AJAX memiliki dampak besar pada pengalaman pengguna dengan mengubah interaksi web dari model page-by-page menjadi model yang lebih fluid dan kontinu. Pengguna mengalami:<br>1. Halaman yang lebih responsif. Interaksi terasa lebih cepat karena tidak ada lagi jeda panjang yang biasanya terjadi saat menunggu halaman baru dimuat.<br>2. Interaksi tanpa gangguan. User dapat terus berinteraksi dengan bagian lain dari halaman saat menunggu pembaruan data, membuat pengalaman navigasi yang mulus.<br>3. Pembaruan konten *real-time*. Fitur seperti notifikasi, live chat, atau data saham yang diperbarui secara *real-time* menjadi mungkin, membuat website terasa lebih hidup dan informatif.
+
+___
 Sumber materi 
 --
 - Dokumen [Django](https://docs.djangoproject.com/en/5.2/topics/settings/)
@@ -470,4 +498,3 @@ Sumber materi
 - [Tree](https://tree.nathanfriend.com/) untuk membuat *directory graph*
 - [Figma](https://www.figma.com/board/DyyTiiB2hHrAJuwnOJFQTe/Untitled?node-id=0-1&t=0ZObPeJ7a4oGYVIX-1) untuk membuat *request client graph*
 ___
-

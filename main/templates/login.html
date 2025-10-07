@@ -14,17 +14,7 @@
         <p class="text-gray-600">Welcome back to Shot On Target Market</p>
       </div>
 
-      {% if form.non_field_errors %}
-        <div class="mb-5">
-          {% for error in form.non_field_errors %}
-            <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-red-800">
-              {{ error }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <form method="POST" action="" class="space-y-5">
+      <form id="loginForm" class="space-y-5">
         {% csrf_token %}
         
         <div>
@@ -62,25 +52,9 @@
         </button>
       </form>
 
-      {% if messages %}
-        <div class="mt-5 space-y-2">
-          {% for message in messages %}
-            <div 
-              class="
-                px-4 py-3 rounded-md text-sm border
-                {% if message.tags == 'success' %}
-                  bg-green-50 border-green-200 text-green-800
-                {% elif message.tags == 'error' %}
-                  bg-red-50 border-red-200 text-red-800
-                {% else %}
-                  bg-blue-50 border-blue-200 text-blue-800
-                {% endif %}
-              ">
-              {{ message }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
+      <div id="loginMessages" class="mt-5 space-y-2 hidden">
+        <div id="loginError" class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-red-800"></div>
+      </div>
 
       <div class="mt-6 text-center pt-5 border-t border-gray-200">
         <p class="text-gray-500 text-sm">
@@ -94,4 +68,40 @@
     </div>
   </div>
 </div>
+
+{% include 'toast.html' %}
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+ e.preventDefault();
+
+ const formData = new FormData(this);
+ const response = await fetch('{% url "main:login_ajax" %}', {
+   method: 'POST',
+   headers: {
+     'X-CSRFToken': '{{ csrf_token }}'
+   },
+   body: formData
+ });
+
+ const data = await response.json();
+
+ if (response.ok) {
+   showToast('Login successful!', '', 'success');
+   // Update last login display if on main page
+   const lastLoginDisplay = document.getElementById('last-login-display');
+   if (lastLoginDisplay) {
+     lastLoginDisplay.textContent = 'Last login: ' + data.user.last_login;
+   }
+   setTimeout(() => {
+     window.location.href = '{% url "main:show_main_page" %}';
+   }, 1000);
+ } else {
+   document.getElementById('loginError').textContent = data.message;
+   document.getElementById('loginMessages').classList.remove('hidden');
+   showToast(data.message, '', 'error');
+ }
+});
+</script>
+
 {% endblock content %}
