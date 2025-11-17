@@ -22,5 +22,6 @@ handler404 = not_found_error_page # Add this line to specify the custom 404 erro
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('main.urls'))
+    path('',include('main.urls')),
+    path('auth/',include('authentication.urls')),
 ]
